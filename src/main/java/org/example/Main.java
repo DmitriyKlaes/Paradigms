@@ -1,108 +1,210 @@
 package org.example;
 
+import org.example.office_control.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
         /*
-        Задача №1
-        Дан список целых чисел numbers. Необходимо написать в императивном стиле процедуру для
-        сортировки числа ворядке убывания. Можно использовать любой алгоритм сортировки.
-         */
-        List<Integer> numbers1 = Arrays.asList(6, 1, 5, 7, 8, 2, 9, 3, 10, 4);
-        sortListDescending(numbers1);
-        System.out.println(numbers1);
+        ● Условие
+        На вход подается число n.
+        ● Задача
+        Написать скрипт в любой парадигме, который выводит на экран таблицу умножения всех чисел от 1 до n.
+        Обоснуйте выбор парадигм.
+        ● Пример вывода:
+        1 * 1 = 1
+        1 * 2 = 2
+        1 * 3 = 3
+        1 * 4 = 4
+        1 * 5 = 5
+        1 * 6 = 6
+        ..
+        1 * 9 = 9
 
-
-        /*
-        Задача №2
-        Написать точно такую же процедуру, но в декларативном стиле
+        Пишу в процедурной парадигме, что бы переиспользовать этот код много раз.
         */
-        List<Integer> numbers2 = Arrays.asList(6, 1, 5, 7, 8, 2, 9, 3, 10, 4);
-        numbers2.sort(Collections.reverseOrder());
-        System.out.println(numbers2);
+        multiplicationTable(5);
 
 
         /*
-        Задача- 3: У вас есть массив целых чисел, в котором каждое число,
-        кроме одного, повторяется дважды. Вам нужно найти это одиночное число.
+        Задача 2
         __
-        Пример:
+        Допустим, у нас есть задача по обработке данных о студентах в университете. У нас есть следующие данные:
         __
-        Входной массив: [4, 3, 2, 4, 1, 3, 2]
-        Результат: 1
-        В данной задаче вы должны найти способ найти одиночное число с использованием массивов и алгоритмов.
-         */
+        Список студентов с их именами и оценками.
+        Нам нужно найти средний балл по всем студентам и вывести имена студентов, чей балл выше среднего.
+        Сделать 2 варианта решения , т е Реализация структурного программирования и процедурного программирования
 
-        int[] arr1 = {4, 3, 2, 4, 1, 3, 2};
-        boolean find1 = false;
-        for (int i = 0; i < arr1.length; i++) {
-            int result = arr1[i];
-            for (int j = 0; j < arr1.length; j++) {
-                if (j == i) {
-                    continue;
-                }
-                if (result == arr1[j]) {
-                    find1 = true;
-                    break;
-                }
-            }
-            if (!find1) {
-                System.out.printf("Результат: %d%n", result);
-                break;
-            }
-            find1 = false;
+        Список студентов
+        student_data = [
+        {'name': 'Alice', 'score': 85},
+        {'name': 'Bob', 'score': 92},
+        {'name': 'Charlie', 'score': 78},
+        {'name': 'David', 'score': 95},
+        ]
+        __
+        print(f"Средний балл: {average}")
+        print(f"Студенты с баллом выше среднего: {above_average_students}")
+        */
+
+        Student[] studentData = {new Student("Alice", 85),
+                                 new Student("Bob", 92),
+                                 new Student("Charlie", 78),
+                                 new Student("David", 95)};
+
+        //Структурный подход:
+
+        int average;
+        int tempSum = 0;
+        List<Student> aboveAverageStudents = new ArrayList<>();
+
+        for (Student student : studentData) {
+            tempSum += student.score;
         }
+        average = tempSum / studentData.length;
+
+        for (Student student : studentData) {
+            if (student.score > average) {
+                aboveAverageStudents.add(student);
+            }
+        }
+
+        System.out.println("Средний балл: " +  average);
+        System.out.println("Студенты с баллом выше среднего: ");
+        for (Student aboveAverageStudent : aboveAverageStudents) {
+            System.out.println(aboveAverageStudent);
+        }
+
+
+        //Процедурный подход
+
+        int averageP = getAverage(studentData);
+        List<Student> averageStudents = getAverageStudents(studentData, averageP);
+        System.out.println("Средний балл: " +  averageP);
+        System.out.println("Студенты с баллом выше среднего: ");
+        printList(averageStudents);
 
 
         /*
-        Задача-4: У вас есть массив, содержащий числа от 1 до N, где N - длина массива.
-        Одно из чисел в массиве повторяется дважды, а одно число пропущено.
-        Найдите повторяющееся число и пропущенное число.
+        Задача 2
         __
-        Пример:
+        Мы разрабатываем систему управления ресурсами в офисе.
+        У нас есть несколько комнат, в каждой из которых размещены разные устройства
+        (компьютеры, принтеры, лампы и т. д.).
+        Каждое устройство имеет следующие характеристики:
+        тип (компьютер, принтер, лампа и т. д.),
+        статус (включено или выключено),
+        идентификатор.
         __
+        Мы хотим выполнить следующие операции:
+        __
+        Добавить новое устройство в комнату.
+        Включить или выключить устройство в комнате.
+        Поиск устройства по типу и статусу.
+        Получить список всех устройств в конкретной комнате.
+        Подсчитать общее количество устройств каждого типа в офисе.
+        */
 
-        Входной массив: [2, 3, 1, 5, 3]
-        Повторяющееся число: 3
-        Пропущенное число: 4
-         */
 
-        int[] arr2 = {2, 3, 1, 5, 3};
-        int length = arr2.length;
-        int count = 0;
-        int duplicate = 0;
-        int miss = 0;
-        for (int i = 0; i < arr2.length; i++) {
-            for (int k : arr2) {
-                if (length == k) {
-                    count++;
-                }
-            }
-            if (count == 0) {
-                miss = length;
-            }
-            if (count > 1) {
-                duplicate = length;
-            }
-            length--;
-            count = 0;
+        Office office = new Office();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        Room room3 = new Room();
+        Room room4 = new Room();
+        office.getRooms().addAll(List.of(room1, room2, room3, room4));
+
+        Device computerRoom1 = new Computer();
+        Device LampRoom1 = new Lamp();
+        room1.addDevice(computerRoom1);
+        room1.addDevice(LampRoom1);
+        Device LampRoom2 = new Lamp();
+        Device PrinterRoom2 = new Printer();
+        room2.addDevice(LampRoom2);
+        room2.addDevice(PrinterRoom2);
+        Device computerRoom3 = new Computer();
+        Device PrinterRoom3 = new Printer();
+        room3.addDevice(computerRoom3);
+        room3.addDevice(PrinterRoom3);
+        Device computerRoom4 = new Computer();
+        Device LampRoom4 = new Lamp();
+        Device PrinterRoom4 = new Printer();
+        room4.addDevice(computerRoom4);
+        room4.addDevice(LampRoom4);
+        room4.addDevice(PrinterRoom4);
+
+        computerRoom1.switchDevice();
+        LampRoom2.switchDevice();
+        computerRoom3.switchDevice();
+        computerRoom4.switchDevice();
+        PrinterRoom4.switchDevice();
+
+        for (Device device : room1.findDevice("Компьютер")) {
+            System.out.println(device);
         }
-        System.out.printf("Повторяющееся число: %d%n", duplicate);
-        System.out.printf("Пропущенное число: %d%n", miss);
+        for (Device device : room2.findDevice(true)) {
+            System.out.println(device);
+        }
+        for (Device device : room3.findDevice(false)) {
+            System.out.println(device);
+        }
+        for (Device device : room4.findDevice("Компьютер", true)) {
+            System.out.println(device);
+        }
+
+        System.out.println("Все устройства в 1 комнате:");
+        for (Device device : room1.getDevices()) {
+            System.out.println(device);
+        }
+        System.out.println("Все устройства в 2 комнате:");
+        for (Device device : room2.getDevices()) {
+            System.out.println(device);
+        }
+        System.out.println("Все устройства в 3 комнате:");
+        for (Device device : room3.getDevices()) {
+            System.out.println(device);
+        }
+        System.out.println("Все устройства в 4 комнате:");
+        for (Device device : room4.getDevices()) {
+            System.out.println(device);
+        }
+
+        office.printListAllDevices();
     }
 
-    public static void sortListDescending(List<Integer> list) {
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = 0; j < list.size() - i - 1; j++) {
-                if (list.get(j + 1) > list.get(j)) {
-                    int temp = list.get(j);
-                    list.set(j, list.get(j + 1));
-                    list.set(j + 1, temp);
-                }
+    private static void multiplicationTable(int number) {
+        for (int i = 1; i <= number; i++) {
+            for (int j = 1; j < 10; j++) {
+                System.out.printf("%d * %d = %d%n", i, j, i * j);
             }
+            System.out.println("---");
+        }
+    }
+
+    private static int getAverage(Student[] studentData) {
+        int average;
+        int tempSum = 0;
+        for (Student student : studentData) {
+            tempSum += student.score;
+        }
+        average = tempSum / studentData.length;
+        return average;
+    }
+
+    private static List<Student> getAverageStudents(Student[] studentData, int average) {
+        List<Student> aboveAverageStudents = new ArrayList<>();
+        for (Student student : studentData) {
+            if (student.score > average) {
+                aboveAverageStudents.add(student);
+            }
+        }
+        return aboveAverageStudents;
+    }
+
+    private static void printList(List<Student> students) {
+        for (Student student : students) {
+            System.out.println(student);
         }
     }
 
