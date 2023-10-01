@@ -1,58 +1,55 @@
 package org.example;
 
-
 /*
-Написать скрипт для расчета корреляции Пирсона между
-двумя случайными величинами (двумя массивами). Можете
-использовать любую парадигму, но рекомендую использовать
-функциональную, т.к. в этом примере она значительно
-упростит вам жизнь.
+Написать программу на любом языке в любой парадигме для
+бинарного поиска. На вход подаётся целочисленный массив и
+число. На выходе - индекс элемента или -1, в случае если искомого
+элемента нет в массиве.
  */
 public class Main {
+
     public static void main(String[] args) {
+        int[] values = {1, 1, 1, 2, 3, 4, 10};
+        int valueToFind = 10;
 
-        int[] array1 = {2, 3, 4, 5, 6};
-        int[] array2 = {2, 3, 5, 10, 7};
-
-        double pirson = correlation(array1, array2);
-
-        System.out.println(pirson);
-
+        System.out.printf("Index = %d%n", binarySearch(values, valueToFind));
+        System.out.printf("Index = %d%n", binarySearch(values, valueToFind, 0, values.length - 1));
     }
 
-    public static double correlation(int[] arrayX, int[] arrayY) {
-        if (arrayX.length != arrayY.length) {
-            throw new RuntimeException("Массивы должны быть одинаковой длины!");
+    // Без рекурсии
+    private static int binarySearch(int[] sortedArray, int valueToFind) {
+        int index = -1;
+        int low = 0;
+        int length = sortedArray.length;
+
+        while (low <= length - 1) {
+            int mid = low + (length - low) / 2;
+            if (sortedArray[mid] < valueToFind) {
+                low = mid + 1;
+            } else if (sortedArray[mid] > valueToFind) {
+                length = mid - 1;
+            } else if (sortedArray[mid] == valueToFind) {
+                index = mid;
+                break;
+            }
+        }
+        return index;
+    }
+
+    // С рекурсией
+    private static int binarySearch(int[] values, int valueToFind, int left, int right) {
+        if (left == right) {
+            return (values[left] == valueToFind) ? left : -1;
         }
 
-        int length = arrayX.length;
+        int mid = left + (right - left) / 2;
 
-        double averageX = average(arrayX);
-        double averageY = average(arrayY);
-
-        double numerator = 0;
-        double denominatorX = 0;
-        double denominatorY = 0;
-        for (int i = 0; i < length; i++) {
-            numerator += (arrayX[i] - averageX) * (arrayY[i] - averageY);
-            denominatorX += Math.pow(arrayX[i] - averageX, 2);
-            denominatorY += Math.pow(arrayY[i] - averageY, 2);
+        if (valueToFind > values[mid]) {
+            return binarySearch(values, valueToFind, mid + 1, right);
+        } else if (values[mid] > valueToFind) {
+            return binarySearch(values, valueToFind, left, mid - 1);
         }
-        denominatorX = Math.sqrt(denominatorX);
-        denominatorY = Math.sqrt(denominatorY);
-
-        return numerator / (denominatorX * denominatorY);
+        return mid;
     }
 
-    private static double average(int[] array) {
-        return sum(array) / array.length;
-    }
-
-    private static double sum(int[] array) {
-        int result = 0;
-        for (int i : array) {
-            result += i;
-        }
-        return result;
-    }
 }
