@@ -37,17 +37,17 @@ public class Main {
     }
 
     // С рекурсией
-    private static int binarySearch(int[] values, int valueToFind, int left, int right) {
-        if (left == right) {
-            return (values[left] == valueToFind) ? left : -1;
+    private static int binarySearch(int[] values, int valueToFind, int start, int range) {
+        if (start == range) {
+            return (values[start] == valueToFind) ? start : -1;
         }
 
-        int mid = left + (right - left) / 2;
+        int mid = start + (range - start) / 2;
 
         if (valueToFind > values[mid]) {
-            return binarySearch(values, valueToFind, mid + 1, right);
+            return binarySearch(values, valueToFind, mid + 1, range);
         } else if (values[mid] > valueToFind) {
-            return binarySearch(values, valueToFind, left, mid - 1);
+            return binarySearch(values, valueToFind, start, mid - 1);
         }
         return mid;
     }
